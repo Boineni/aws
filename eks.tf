@@ -1,4 +1,4 @@
-resource "aws_iam_role" "raju" {
+resource "aws_iam_role" "demo" {
   name = "${var.iam_role}"
 
   assume_role_policy = <<POLICY
@@ -17,14 +17,14 @@ resource "aws_iam_role" "raju" {
 POLICY
 }
 
-resource "aws_iam_role_policy_attachment" "raju-AmazonEKSClusterPolicy" {
+resource "aws_iam_role_policy_attachment" "demo-AmazonEKSClusterPolicy" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy"
-  role       = aws_iam_role.raju.name
+  role       = aws_iam_role.demo.name
 }
 
-resource "aws_eks_cluster" "raju" {
+resource "aws_eks_cluster" "demo" {
   name     = "${var.cluster_name}"
-  role_arn = aws_iam_role.raju.arn
+  role_arn = aws_iam_role.demo.arn
 
   vpc_config {
     subnet_ids = [
@@ -35,5 +35,5 @@ resource "aws_eks_cluster" "raju" {
     ]
   }
 
-  depends_on = [aws_iam_role_policy_attachment.raju-AmazonEKSClusterPolicy]
+  depends_on = [aws_iam_role_policy_attachment.demo-AmazonEKSClusterPolicy]
 }
